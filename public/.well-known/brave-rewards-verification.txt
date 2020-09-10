@@ -1,0 +1,4 @@
+This is a Brave Rewards publisher verification file.
+
+Domain: crypto-portfolio.netlify.app
+Token: fe0cac98f4f3a3527e251b8517a8fa9a2c23f68bb60c61eb5e9d4f5a7487a6f4
