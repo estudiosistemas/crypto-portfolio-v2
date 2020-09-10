@@ -1,7 +1,7 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import orange from "@material-ui/core/colors/orange";
-import lightBlue from "@material-ui/core/colors/lightblue";
+//import lightBlue from "@material-ui/core/colors/lightblue";
 import grey from "@material-ui/core/colors/grey";
 
 export const darkTheme = createMuiTheme({
@@ -11,7 +11,7 @@ export const darkTheme = createMuiTheme({
       main: grey[800],
     },
     secondary: {
-      main: lightBlue[600],
+      main: "#60b4df",
     },
   },
 
