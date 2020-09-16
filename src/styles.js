@@ -28,8 +28,8 @@ export const useStylesCard = makeStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    marginTop: "2rem",
-    marginBottom: "2rem",
+    margin: "2rem",
+    //marginBottom: "2rem",
     padding: "0.5rem",
     minHeight: 580,
   },
@@ -49,8 +49,9 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === "light"
         ? theme.palette.grey[200]
         : theme.palette.grey[800],
-    fontSize: "0.85rem",
-    padding: "0.8rem 0",
+    fontSize: "0.9rem",
+    paddingTop: "0.8rem",
+    paddingBottom: "0.8rem",
     color: theme.palette.type === "light" ? theme.palette.grey[900] : "#fafafa",
   },
   stickyFooterCell: {

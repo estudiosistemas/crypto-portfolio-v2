@@ -18,7 +18,8 @@ import useStyles from "../src/styles";
 import TableNumberFormat from "../components/TableNumberFormat";
 import textLabelsSpanish from "../components/tableLabelsLocation";
 import Events from "../components/layout/Events";
-import Fade from "@material-ui/core/Fade";
+
+import CustomActionsSelect from "../components/CustomActionsSelect";
 
 export default function Billetera() {
   const [mensaje, setMensaje] = useState("Cargando...");
@@ -198,7 +199,7 @@ export default function Billetera() {
     {
       name: "id_API",
       options: {
-        display: "false",
+        display: "exclude",
       },
     },
     {
@@ -289,6 +290,28 @@ export default function Billetera() {
         sort: true,
       },
     },
+    {
+      name: "Acciones",
+      options: {
+        filter: false,
+        sort: false,
+        empty: true,
+        customBodyRenderLite: (dataIndex, rowIndex) => {
+          return (
+            <CustomActionsSelect
+              dataIndex={dataIndex}
+              rowIndex={rowIndex}
+              sigla={billetera[dataIndex].sigla}
+              borrarMoneda={borrarMoneda}
+              editarMoneda={editarMoneda}
+              ordenesMoneda={ordenesMoneda}
+              comprarMoneda={comprarMoneda}
+              venderMoneda={venderMoneda}
+            />
+          );
+        },
+      },
+    },
   ];
 
   const options = {
@@ -296,33 +319,14 @@ export default function Billetera() {
     filterType: "dropdown",
     responsive: "vertical",
     selectableRowsHeader: false,
-    selectableRows: "single",
-    //selectableRowsOnClick: true,
+    selectableRows: "none",
     rowsSelected: filaSelected,
     rowsPerPage: 25,
-    customToolbarSelect: (selectedRows, displayData, setSelectedRows) => (
-      <CustomToolbarSelect
-        selectedRows={selectedRows}
-        displayData={displayData}
-        setSelectedRows={setSelectedRows}
-        borrarMoneda={borrarMoneda}
-        editarMoneda={editarMoneda}
-        ordenesMoneda={ordenesMoneda}
-        comprarMoneda={comprarMoneda}
-        venderMoneda={venderMoneda}
-      />
-    ),
-    onRowSelectionChange: (rowsSelectedData, allRows, rowsSelected) => {
-      setFilaSelected(rowsSelected);
-    },
     expandableRows: true,
     expandableRowsHeader: false,
-    expandableRowsOnClick: true,
+    expandableRowsOnClick: false,
     rowsExpanded: filaExpanded,
     isRowExpandable: (dataIndex, expandedRows) => {
-      //if (dataIndex === 3 || dataIndex === 4) return false;
-
-      // Prevent expand/collapse of any row if there are 4 rows expanded already (but allow those already expanded to be collapsed)
       if (
         expandedRows.data.length > 4 &&
         expandedRows.data.filter((d) => d.dataIndex === dataIndex).length === 0
@@ -335,7 +339,6 @@ export default function Billetera() {
       return (
         <TableRow>
           <TableCell colSpan={colSpan}>
-            {/* Custom expandable row option. Data: {JSON.stringify(rowData)} */}
             <Events coin={rowData[0]} />
           </TableCell>
         </TableRow>
@@ -387,9 +390,9 @@ export default function Billetera() {
       return (
         <TableFooter className={classes.footerCell}>
           <TableRow>
-            {opts.selectableRows !== "none" ? (
-              <TableCell className={classes.footerCell} />
-            ) : null}
+            {/* {opts.selectableRows !== "none" ? ( */}
+            <TableCell className={classes.footerCell} />
+            {/* ) : null} */}
             {opts.columns.map((col, index) => {
               if (col.display === "true") {
                 if (col.name === "cantidad") {
@@ -401,13 +404,13 @@ export default function Billetera() {
                 } else if (col.name === "valorcompra") {
                   return (
                     <TableCell key={index} className={classes.footerCell}>
-                      <TableNumberFormat valor={totales.compra} decimales={8} />
+                      <TableNumberFormat valor={totales.compra} decimales={2} />
                     </TableCell>
                   );
                 } else if (col.name === "totalUSDT") {
                   return (
                     <TableCell key={index} className={classes.footerCell}>
-                      <TableNumberFormat valor={totales.actual} decimales={8} />
+                      <TableNumberFormat valor={totales.actual} decimales={2} />
                     </TableCell>
                   );
                 } else if (col.name === "posicionUSDT") {

@@ -1,18 +1,18 @@
 import { createMuiTheme } from "@material-ui/core/styles";
 import { red } from "@material-ui/core/colors";
 import orange from "@material-ui/core/colors/orange";
-//import lightBlue from "@material-ui/core/colors/lightblue";
 import grey from "@material-ui/core/colors/grey";
 
 export const darkTheme = createMuiTheme({
   palette: {
     type: "dark",
     primary: {
-      main: grey[800],
+      main: grey[900],
     },
     secondary: {
       main: "#60b4df",
     },
+    background: { paper: grey[900] },
   },
 
   overrides: {
