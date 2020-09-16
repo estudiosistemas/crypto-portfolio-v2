@@ -327,10 +327,6 @@ export default function Billetera() {
     expandableRowsHeader: false,
     expandableRowsOnClick: false,
     rowsExpanded: filaExpanded,
-    sortOrder: {
-      name: "totalUSDT",
-      direction: "desc",
-    },
     isRowExpandable: (dataIndex, expandedRows) => {
       if (
         expandedRows.data.length > 4 &&

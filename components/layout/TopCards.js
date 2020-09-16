@@ -9,7 +9,6 @@ const useStyles = makeStyles({
     flexGrow: 1,
     minWidth: 275,
     justify: "center",
-    margin: "0 2rem 0 2rem",
   },
 });
 
