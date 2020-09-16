@@ -117,7 +117,7 @@ const NuevaMoneda = () => {
   return (
     <Paper className={classes.paper}>
       <h2>Cargar Moneda</h2>
-      <form noValidate autoComplete="off">
+      <form noValidate>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <SelectCripto />

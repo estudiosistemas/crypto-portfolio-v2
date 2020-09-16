@@ -23,7 +23,7 @@ import CustomActionsSelect from "../components/CustomActionsSelect";
 
 export default function Billetera() {
   const [mensaje, setMensaje] = useState("Cargando...");
-  const [mostrarConCantidad, setMostrarConCantidad] = useState(true);
+  const [mostrarConCantidad, setMostrarConCantidad] = useState(false);
   const [filaSelected, setFilaSelected] = useState([]);
   const [filaExpanded, setFilaExpanded] = useState([]);
   const [billetera, setBilletera] = useState([]);
@@ -127,14 +127,14 @@ export default function Billetera() {
           id_API: moneda.id_API,
           sigla: moneda.sigla,
           nombre: moneda.nombre,
-          cantidad: moneda.cantidad,
-          valorcompra: moneda.valorcompra,
-          cotizacion: moneda.cotizacion,
-          cotizacionUSDT: cotUSDT,
-          cotizacionBTC: cotBTC,
-          totalUSDT,
-          totalBTC,
-          posicionUSDT,
+          cantidad: parseFloat(moneda.cantidad),
+          valorcompra: parseFloat(moneda.valorcompra),
+          cotizacion: parseFloat(moneda.cotizacion),
+          cotizacionUSDT: parseFloat(cotUSDT),
+          cotizacionBTC: parseFloat(cotBTC),
+          totalUSDT: parseFloat(totalUSDT),
+          totalBTC: parseFloat(totalBTC),
+          posicionUSDT: parseFloat(posicionUSDT),
           posicionBTC: 0,
           exchange: moneda.exchange,
         };
@@ -244,7 +244,7 @@ export default function Billetera() {
       name: "valorcompra",
       options: {
         filter: false,
-        sort: false,
+        sort: true,
         customBodyRenderLite: (dataIndex) => {
           let val = billetera[dataIndex].valorcompra;
           return <TableNumberFormat valor={val} decimales={2} estilo={false} />;
@@ -256,7 +256,7 @@ export default function Billetera() {
       name: "totalUSDT",
       options: {
         filter: false,
-        sort: false,
+        sort: true,
         customBodyRenderLite: (dataIndex) => {
           let val = billetera[dataIndex].totalUSDT;
           return <TableNumberFormat valor={val} decimales={2} estilo={false} />;
@@ -268,7 +268,7 @@ export default function Billetera() {
       name: "posicionUSDT",
       options: {
         filter: false,
-        sort: false,
+        sort: true,
         customBodyRenderLite: (dataIndex) => {
           let val = billetera[dataIndex].posicionUSDT;
           return (
@@ -276,14 +276,15 @@ export default function Billetera() {
               valor={val}
               decimales={2}
               estilo={true}
-              sufijo={" %"}
+              prefijo={val > 0 && "+"}
+              sufijo={"%"}
             />
           );
         },
       },
     },
     {
-      label: "Exchange/Wallet",
+      label: "Exchange",
       name: "exchange",
       options: {
         filter: true,
@@ -326,6 +327,10 @@ export default function Billetera() {
     expandableRowsHeader: false,
     expandableRowsOnClick: false,
     rowsExpanded: filaExpanded,
+    sortOrder: {
+      name: "totalUSDT",
+      direction: "desc",
+    },
     isRowExpandable: (dataIndex, expandedRows) => {
       if (
         expandedRows.data.length > 4 &&
@@ -420,7 +425,8 @@ export default function Billetera() {
                         valor={totales.posicion}
                         decimales={2}
                         estilo={true}
-                        sufijo={" %"}
+                        sufijo={"%"}
+                        prefijo={totales.posicion > 0 && "+"}
                       />
                     </TableCell>
                   );

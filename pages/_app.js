@@ -48,9 +48,9 @@ export default function MyApp(props) {
           <CssBaseline />
           <SnackbarProvider maxSnack={3} autoHideDuration={1000}>
             <Header darkMode={darkMode} changeTheme={changeTheme} />
-            {/* <Container> */}
-            <Component {...pageProps} />
-            {/* </Container> */}
+            <Container>
+              <Component {...pageProps} />
+            </Container>
             <Footer />
           </SnackbarProvider>
         </ThemeProvider>

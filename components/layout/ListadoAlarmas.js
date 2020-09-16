@@ -170,7 +170,7 @@ const ListadoAlarmas = ({
             aria-label="edit"
             //onClick={handleModificar}
           >
-            <EditIcon />
+            <EditIcon style={{ fontSize: 20 }} />
           </IconButton>
           <IconButton
             size="small"
@@ -178,74 +178,13 @@ const ListadoAlarmas = ({
             aria-label="delete"
             onClick={borrarAlarma}
           >
-            <DeleteIcon />
+            <DeleteIcon style={{ fontSize: 20 }} />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
 
       <Divider />
     </>
-    // <tr>
-    //   <td data-th="Par">
-    //     <Link href="/editar-alarma[id]" as={`/editar-alarma/${id}`}>
-    //       <a
-    //         css={css`
-    //           text-decoration: none;
-    //           color: blue;
-    //           cursor: pointer;
-    //         `}
-    //       >
-    //         {sigla}/{par.toUpperCase()}{" "}
-    //       </a>
-    //     </Link>
-    //   </td>
-    //   <td data-th="Precio Actual">
-    //     <NumberFormat
-    //       value={preciopar}
-    //       displayType={"text"}
-    //       thousandSeparator={true}
-    //       decimalScale={8}
-    //       fixedDecimalScale={true}
-    //       renderText={(value) => <CeldaNumero>{value}</CeldaNumero>}
-    //     />
-    //   </td>
-    //   <td data-th="Limit">
-    //     <NumberFormat
-    //       value={precioalarma}
-    //       displayType={"text"}
-    //       thousandSeparator={true}
-    //       decimalScale={8}
-    //       fixedDecimalScale={true}
-    //       renderText={(value) => (
-    //         <CeldaNumero>
-    //           <div>&uarr; {value}</div>
-    //         </CeldaNumero>
-    //       )}
-    //     />
-    //   </td>
-    //   <td data-th="StopLoss">
-    //     <NumberFormat
-    //       value={preciostop}
-    //       displayType={"text"}
-    //       thousandSeparator={true}
-    //       decimalScale={8}
-    //       fixedDecimalScale={true}
-    //       renderText={(value) => (
-    //         <CeldaNumero>
-    //           <div>&darr; {value} </div>
-    //         </CeldaNumero>
-    //       )}
-    //     />
-    //   </td>
-    //   <td data-th="Acciones">
-    //     {usuario && (
-    //       <button onClick={toogleActivada}>
-    //         {activada ? "Cancelar Alarma" : "Alarma Activa"}
-    //       </button>
-    //     )}{" "}
-    //     <button onClick={borrarAlarma}>Borrar</button>
-    //   </td>
-    // </tr>
   );
 };
 

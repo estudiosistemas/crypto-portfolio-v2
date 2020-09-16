@@ -119,7 +119,7 @@ const editarMoneda = () => {
   return (
     <Paper className={classes.paper}>
       <h2>Modificar Moneda</h2>
-      <form noValidate autoComplete="off">
+      <form noValidate>
         <Grid container spacing={3}>
           <Grid item xs={12} sm={4}>
             <TextField

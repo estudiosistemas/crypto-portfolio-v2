@@ -27,7 +27,7 @@ import { useRouter } from "next/router";
 
 import { FirebaseContext } from "../../firebase";
 
-const drawerWidth = 500;
+const drawerWidth = 355;
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -160,6 +160,11 @@ export default function Header({ darkMode, changeTheme }) {
     changeTheme();
   };
 
+  const togglePanelAlarma = () => {
+    handleMenuClose();
+    setOpeAlarm(!openAlarm);
+  };
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -188,13 +193,13 @@ export default function Header({ darkMode, changeTheme }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={changeTheme}>
+      <MenuItem onClick={handleChangeTheme}>
         <IconButton aria-label="changeTheme" color="inherit">
           <Brightness4Icon />
         </IconButton>
         <p>{darkMode ? "Claro" : "Oscuro"}</p>
       </MenuItem>
-      <MenuItem onClick={() => setOpeAlarm(!openAlarm)}>
+      <MenuItem onClick={togglePanelAlarma}>
         <IconButton aria-label="show 11 new notifications" color="inherit">
           <NotificationsIcon />
         </IconButton>

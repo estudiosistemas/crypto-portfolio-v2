@@ -62,7 +62,7 @@ const Login = () => {
   return (
     <Paper className={classes.root}>
       <h2>Iniciar Sesión</h2>
-      <form noValidate autoComplete="off">
+      <form noValidate>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <TextField

@@ -202,7 +202,7 @@ const VenderMoneda = () => {
       {errorBuscar && <Error404 />}
       <Paper className={classes.paper}>
         <h2>Vender {moneda_sigla}</h2>
-        <form noValidate autoComplete="off">
+        <form noValidate>
           <Grid container spacing={3}>
             <Grid item xs={12} sm={4}>
               <TextField

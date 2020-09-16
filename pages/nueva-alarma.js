@@ -129,7 +129,7 @@ const nuevaAlarma = () => {
   return (
     <Paper className={classes.paper}>
       <h2>Crear Alarma</h2>
-      <form noValidate autoComplete="off">
+      <form noValidate>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <SelectCripto />

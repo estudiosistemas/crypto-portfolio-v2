@@ -40,7 +40,7 @@ import { makeStyles, Paper } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
-    maxWidth: 752,
+    maxWidth: 355,
   },
   demo: {
     backgroundColor: theme.palette.background.paper,
@@ -156,16 +156,16 @@ const Alarmas = () => {
         cotUSDT = alarma_actual[0].current_price;
         switch (al.par) {
           case "btc":
-            cotPar = (cotUSDT / cotBTC).toFixed(8);
+            cotPar = (cotUSDT / cotBTC).toFixed(2);
             break;
           case "eth":
-            cotPar = (cotUSDT / cotETH).toFixed(8);
+            cotPar = (cotUSDT / cotETH).toFixed(2);
             break;
           case "bnb":
-            cotPar = (cotUSDT / cotBNB).toFixed(8);
+            cotPar = (cotUSDT / cotBNB).toFixed(2);
             break;
           default:
-            cotPar = cotUSDT.toFixed(8);
+            cotPar = cotUSDT.toFixed(2);
             break;
         }
       }
@@ -176,8 +176,8 @@ const Alarmas = () => {
         nombre: al.nombre,
         par: al.par,
         //compara: al.compara,
-        precioalarma: parseFloat(al.precioalarma).toFixed(8),
-        preciostop: parseFloat(al.preciostop).toFixed(8),
+        precioalarma: parseFloat(al.precioalarma).toFixed(2),
+        preciostop: parseFloat(al.preciostop).toFixed(2),
         precioaUSD: cotUSDT,
         preciopar: cotPar,
       };

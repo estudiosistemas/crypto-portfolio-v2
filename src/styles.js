@@ -28,10 +28,10 @@ export const useStylesCard = makeStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "2rem",
-    //marginBottom: "2rem",
+    marginTop: "2rem",
+    marginBottom: "2rem",
     padding: "0.5rem",
-    minHeight: 580,
+    minHeight: 355,
   },
   numero: {
     textAlign: "right",
