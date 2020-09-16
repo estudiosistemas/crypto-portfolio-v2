@@ -38,11 +38,11 @@ const useStyles = makeStyles((theme) => ({
   },
   positivo: {
     textAlign: "right",
-    color: "green",
+    color: theme.palette.type === "light" ? "#66bb6a" : "#00e676",
   },
   negativo: {
     textAlign: "right",
-    color: "red",
+    color: "#ff5252",
   },
   footerCell: {
     backgroundColor:

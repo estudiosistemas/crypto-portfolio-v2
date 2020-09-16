@@ -70,13 +70,13 @@ export const lightTheme = createMuiTheme({
     MuiTableCell: {
       head: {
         fontFamily: "Poppins, sans-serif",
-        fontSize: "0.75rem",
+        fontSize: "0.8rem",
       },
     },
     MUIDataTableBodyCell: {
       root: {
         fontFamily: "Poppins, sans-serif",
-        fontSize: "0.75rem",
+        fontSize: "0.8rem",
       },
     },
   },
