@@ -23,7 +23,7 @@ import CustomActionsSelect from "../components/CustomActionsSelect";
 
 export default function Billetera() {
   const [mensaje, setMensaje] = useState("Cargando...");
-  const [mostrarConCantidad, setMostrarConCantidad] = useState(false);
+  const [mostrarConCantidad, setMostrarConCantidad] = useState(true);
   const [filaSelected, setFilaSelected] = useState([]);
   const [filaExpanded, setFilaExpanded] = useState([]);
   const [billetera, setBilletera] = useState([]);
