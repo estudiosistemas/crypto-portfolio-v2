@@ -121,11 +121,11 @@ export default function Billetera() {
           const moneda_actual_billetera = billetera.filter(
             (el) => el.id_API == moneda.id_API
           );
-          const valorActualBilletera =
-            moneda_actual_billetera[0].cotizacionUSDT;
+          let valorActualBilletera = 0;
+          if (moneda_actual_billetera.length != 0)
+            valorActualBilletera = moneda_actual_billetera[0].cotizacionUSDT;
 
           moneda_actual = valoresBSC.filter((el) => el.id == moneda.id_API);
-          console.log(moneda_actual.length);
           if (moneda_actual.length > 0 && moneda.cotizacion == 0) {
             cotUSDT = moneda_actual[0].current_price;
           } else if (moneda_actual.length === 0 && moneda.cotizacion == 0) {
@@ -191,7 +191,7 @@ export default function Billetera() {
     //Tengo que buscar los decimales en billetera
     let decimales = 18;
     const token = billetera.filter((el) => el.id_API === contract);
-    if (token) {
+    if (token.length != 0) {
       decimales = token[0].decimals;
     }
     const amount = Math.pow(10, decimales);
