@@ -18,7 +18,6 @@ import useStyles from "../src/styles";
 import TableNumberFormat from "../components/TableNumberFormat";
 import textLabelsSpanish from "../components/tableLabelsLocation";
 import Events from "../components/layout/Events";
-
 import CustomActionsSelect from "../components/CustomActionsSelect";
 
 export default function Billetera() {
@@ -29,6 +28,7 @@ export default function Billetera() {
   const [billetera, setBilletera] = useState([]);
   const [monedas, setMonedas] = useState([]);
   const [valores, setValores] = useState({});
+  const [valoresBSC, setValoresBSC] = useState([]);
   const [siglas, setSiglas] = useState("");
   const [totales, setTotales] = useState({
     compra: 0,
@@ -79,7 +79,7 @@ export default function Billetera() {
 
   useInterval(() => {
     if (siglas) buscoValor();
-  }, 2000);
+  }, 5000);
 
   useEffect(() => {
     const actualizoTotales = () => {
@@ -111,10 +111,26 @@ export default function Billetera() {
       ) {
         let cotUSDT = moneda.cotizacion;
         let cotBTC = 0;
-        const moneda_actual = valores.filter((el) => el.id == moneda.id_API);
-        if (moneda_actual.length > 0 && moneda.cotizacion == 0) {
-          cotUSDT = moneda_actual[0].current_price;
-          //cotBTC = valores[moneda.sigla].BTC;
+        let moneda_actual;
+        if (moneda.id_API.length < 42) {
+          moneda_actual = valores.filter((el) => el.id == moneda.id_API);
+          if (moneda_actual.length > 0 && moneda.cotizacion == 0) {
+            cotUSDT = moneda_actual[0].current_price;
+          }
+        } else {
+          const moneda_actual_billetera = billetera.filter(
+            (el) => el.id_API == moneda.id_API
+          );
+          const valorActualBilletera =
+            moneda_actual_billetera[0].cotizacionUSDT;
+
+          moneda_actual = valoresBSC.filter((el) => el.id == moneda.id_API);
+          console.log(moneda_actual.length);
+          if (moneda_actual.length > 0 && moneda.cotizacion == 0) {
+            cotUSDT = moneda_actual[0].current_price;
+          } else if (moneda_actual.length === 0 && moneda.cotizacion == 0) {
+            cotUSDT = valorActualBilletera;
+          }
         }
         const totalUSDT = moneda.cantidad * cotUSDT;
         const totalBTC = moneda.cantidad * cotBTC;
@@ -137,6 +153,7 @@ export default function Billetera() {
           posicionUSDT: parseFloat(posicionUSDT),
           posicionBTC: 0,
           exchange: moneda.exchange,
+          decimals: moneda.decimals,
         };
         return elBilletera;
       }
@@ -146,8 +163,13 @@ export default function Billetera() {
     });
   };
 
-  const buscoValor = () => {
-    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${siglas}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
+  const buscoValor = async () => {
+    const miSiglasArr = siglas.split(",");
+    const miSiglasCoingecko = miSiglasArr
+      .filter((sigla) => sigla.length < 42)
+      .join(",");
+    const miSiglasBSC = miSiglasArr.filter((sigla) => sigla.length == 42);
+    const url = `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${miSiglasCoingecko}&order=market_cap_desc&per_page=100&page=1&sparkline=false`;
 
     axios
       .get(url)
@@ -155,6 +177,38 @@ export default function Billetera() {
         setValores(res.data);
       })
       .catch((err) => console.log(err));
+
+    if (miSiglasBSC) {
+      if (valoresBSC.length / miSiglasBSC.length > 3) setValoresBSC([]);
+      miSiglasBSC.map((sigla) => {
+        consultoAPIBSC(sigla);
+      });
+    }
+  };
+
+  const consultoAPIBSC = (contract) => {
+    const busd = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
+    //Tengo que buscar los decimales en billetera
+    let decimales = 18;
+    const token = billetera.filter((el) => el.id_API === contract);
+    if (token) {
+      decimales = token[0].decimals;
+    }
+    const amount = Math.pow(10, decimales);
+    const url = `https://api.1inch.exchange/v3.0/56/quote?fromTokenAddress=${contract}&toTokenAddress=${busd}&amount=${amount}`;
+    axios
+      .get(url)
+      .then((res) => {
+        const miData = {
+          id: contract,
+          current_price: res.data.toTokenAmount / 1000000000000000000,
+        };
+        setValoresBSC((prevArray) => [...prevArray, miData]);
+      })
+      .catch((err) => {
+        console.log(err);
+        return null;
+      });
   };
 
   const toggleMostrarConCantidad = () => {
@@ -358,14 +412,24 @@ export default function Billetera() {
     textLabels: textLabelsSpanish,
     customToolbar: () => {
       return (
-        <Button
-          variant="outlined"
-          size="small"
-          color="inherit"
-          onClick={() => router.push("/nueva-moneda")}
-        >
-          Agregar Moneda
-        </Button>
+        <>
+          <Button
+            variant="outlined"
+            size="small"
+            color="inherit"
+            onClick={() => router.push("/nueva-moneda")}
+          >
+            Agregar Moneda
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            color="inherit"
+            onClick={() => router.push("/nueva-moneda-bsc")}
+          >
+            Agregar Moneda BSC
+          </Button>
+        </>
       );
     },
     customFooter: (

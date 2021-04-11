@@ -92,6 +92,7 @@ export default function StickyFooter() {
           <p className="rights-text">
             © {new Date().getFullYear()} Mauricio Costa. All Rights Reserved.
           </p>
+          <p className="rights-text">BSC interface by Tincho</p>
         </Grid>
         <Grid item xs={12} sm={6} style={{ paddingLeft: "4rem" }}>
           <h3>Contribuciones</h3>

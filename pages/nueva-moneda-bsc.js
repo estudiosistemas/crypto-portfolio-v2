@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Alert from "@material-ui/lab/Alert";
@@ -9,7 +10,7 @@ import Typography from "@material-ui/core/Typography";
 import { FirebaseContext } from "../firebase";
 
 //hook cripto
-import useCriptomoneda from "../hooks/useCriptomonedaMU";
+import useCriptomonedaBSC from "../hooks/useCriptomonedaMUbsc";
 
 // validaciones
 import useValidacion from "../hooks/useValidacion";
@@ -32,19 +33,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const STATE_INICIAL = {
+  id_API: "",
   nombre: "",
   sigla: "",
   cantidad: 0,
   valorcompra: 0,
   cotiza: 0,
   exchange: "",
+  decimals: 0,
 };
 
-const NuevaMoneda = () => {
+const NuevaMonedaBSC = () => {
   const [error, setError] = useState(false);
 
   // utilizar useCriptomoneda
-  const [criptomoneda, SelectCripto] = useCriptomoneda(null);
+  const [criptomoneda, SelectCripto] = useCriptomonedaBSC(null);
 
   const {
     valores,
@@ -64,6 +67,7 @@ const NuevaMoneda = () => {
     valorcompra,
     cotiza,
     exchange,
+    decimals,
   } = valores;
 
   const router = useRouter();
@@ -89,7 +93,7 @@ const NuevaMoneda = () => {
       exchange,
       creado: Date.now(),
       ordenes: [],
-      decimals: 0,
+      decimals,
     };
 
     // inserto en DB
@@ -106,6 +110,7 @@ const NuevaMoneda = () => {
       valorcompra,
       cotiza,
       exchange,
+      decimals: 0,
     };
     if (criptomoneda) {
       miValor = {
@@ -116,20 +121,83 @@ const NuevaMoneda = () => {
         valorcompra,
         cotiza,
         exchange,
+        decimals: criptomoneda.decimals,
       };
     }
     setValores(miValor);
   }, [criptomoneda]);
 
+  const consultoDataToken = async (contract) => {
+    const busd = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
+    const url = `https://api.1inch.exchange/v3.0/56/quote?fromTokenAddress=${contract}&toTokenAddress=${busd}&amount=10000000000`;
+
+    axios
+      .get(url)
+      .then((res) => {
+        const { name, symbol, decimals } = res.data.fromToken;
+        setValores({
+          ...valores,
+          id_API: contract,
+          sigla: symbol,
+          nombre: name,
+          decimals,
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const handleChangeContract = (e) => {
+    if (e.target.value.length == 42) {
+      consultoDataToken(e.target.value);
+    }
+    setValores({
+      ...valores,
+      id_API: e.target.value,
+    });
+  };
+
   const classes = useStyles();
 
   return (
     <Paper className={classes.paper}>
-      <h2>Cargar Moneda</h2>
+      <h2>Cargar Moneda BSC</h2>
       <form noValidate>
         <Grid container spacing={3}>
           <Grid item xs={12}>
             <SelectCripto />
+          </Grid>
+          <Grid item xs={12} sm={10}>
+            <TextField
+              label="Contrato"
+              error={errores.id_API && true}
+              id="id_API"
+              name="id_API"
+              value={id_API}
+              onChange={handleChangeContract}
+              onBlur={handleBlur}
+              helperText={errores.id_API}
+              variant="outlined"
+              size="small"
+              fullWidth
+            />
+          </Grid>
+          <Grid item xs={12} sm={2}>
+            <TextField
+              label="Dec"
+              error={errores.decimals && true}
+              id="decimals"
+              name="decimals"
+              value={decimals}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              helperText={errores.decimals}
+              variant="outlined"
+              size="small"
+              type="number"
+              fullWidth
+            />
           </Grid>
           <Grid item xs={12} sm={4}>
             <TextField
@@ -267,4 +335,4 @@ const NuevaMoneda = () => {
   );
 };
 
-export default NuevaMoneda;
+export default NuevaMonedaBSC;
