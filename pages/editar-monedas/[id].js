@@ -34,6 +34,7 @@ const STATE_INICIAL = {
   valorcompra: 0,
   cotizacion: 0,
   exchange: "",
+  decimals: 0,
 };
 
 const editarMoneda = () => {
@@ -64,6 +65,7 @@ const editarMoneda = () => {
     valorcompra,
     cotizacion,
     exchange,
+    decimals,
   } = valores;
 
   //context con operaciones crud de firebase
@@ -85,7 +87,10 @@ const editarMoneda = () => {
       valorcompra,
       cotizacion,
       exchange,
+      decimals,
     };
+
+    console.log(monedaUpdated);
 
     // inserto en DB
     firebase.db.collection("billetera").doc(id).update(monedaUpdated);
@@ -107,6 +112,7 @@ const editarMoneda = () => {
             valorcompra: moneda.data().valorcompra,
             cotizacion: moneda.data().cotizacion,
             exchange: moneda.data().exchange,
+            decimals: moneda.data().decimals || 0,
           });
         } else {
           setErrorBuscar(true);

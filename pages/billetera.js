@@ -188,20 +188,23 @@ export default function Billetera() {
 
   const consultoAPIBSC = (contract) => {
     const busd = "0xe9e7cea3dedca5984780bafc599bd69add087d56";
-    //Tengo que buscar los decimales en billetera
+    //Tengo que buscar los decimales y cantidad en billetera
     let decimales = 18;
+    let cantidad = 1;
     const token = billetera.filter((el) => el.id_API === contract);
     if (token.length != 0) {
       decimales = token[0].decimals;
+      cantidad = token[0].cantidad;
     }
-    const amount = Math.pow(10, decimales);
-    const url = `https://api.1inch.exchange/v3.0/56/quote?fromTokenAddress=${contract}&toTokenAddress=${busd}&amount=${amount}`;
+    const cantidadSinPunto = cantidad.toFixed(18).replace(".", "");
+    const url = `https://api.1inch.exchange/v3.0/56/quote?fromTokenAddress=${contract}&toTokenAddress=${busd}&amount=${cantidadSinPunto}`;
     axios
       .get(url)
       .then((res) => {
         const miData = {
           id: contract,
-          current_price: res.data.toTokenAmount / 1000000000000000000,
+          current_price:
+            res.data.toTokenAmount / (1000000000000000000 * cantidad),
         };
         setValoresBSC((prevArray) => [...prevArray, miData]);
       })

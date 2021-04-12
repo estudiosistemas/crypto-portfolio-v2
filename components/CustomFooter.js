@@ -30,7 +30,7 @@ class CustomFooter extends React.Component {
       <TableFooter>
         <TableRow>
           <TableCell style={footerStyle} colSpan={1000}>
-            Powered by CoinGecko API
+            Powered by CoinGecko API {"&"} 1inch API
             <MuiTablePagination
               component="div"
               count={count}
